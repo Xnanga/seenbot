@@ -17,8 +17,22 @@ const client = new Client({
 const prefix = "!";
 
 // Create array of images
-const imageFile = new MessageAttachment("./images/angry-seen.png");
-const imageEmbed = new MessageEmbed().setImage("attachment://angry-seen.png");
+const allImages = [
+  "./images/angry-seen.png",
+  "./images/drawn-seen.jpg",
+  "./images/pished-seen.jpg",
+];
+
+// Generate random number
+const randomInt = (min = 0, max = allImages.length - 1) => {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+};
+
+// Remove string characters at beginning
+const removeStringBeginning = function (stringToEdit, charactersToRemove) {
+  const editedString = stringToEdit.slice(charactersToRemove);
+  return editedString;
+};
 
 // When the client is ready, run this code (only once)
 client.once("ready", () => {
@@ -45,6 +59,16 @@ client.on("messageCreate", (message) => {
 
   // Send random image
   if (command === "seen") {
+    // Generate random number
+    const num = randomInt(0, allImages.length - 1);
+
+    // Assign image file and embed based on number
+    imageFile = new MessageAttachment(allImages[num]);
+    imageEmbed = new MessageEmbed().setImage(
+      `attachment://${removeStringBeginning(allImages[num], 9)}`
+    );
+
+    // Send image embed
     message.channel.send({ embeds: [imageEmbed], files: [imageFile] });
   }
 });
