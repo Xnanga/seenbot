@@ -21,10 +21,13 @@ const allImages = [
   "./images/angry-seen.png",
   "./images/drawn-seen.jpg",
   "./images/pished-seen.jpg",
+  "./images/ali-seen.jpg",
+  "./images/calum-seen.jpg",
+  "./images/original-seen.jpeg",
 ];
 
 // Generate random number
-const randomInt = (min = 0, max = allImages.length - 1) => {
+const randomInt = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
