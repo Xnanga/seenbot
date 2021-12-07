@@ -24,6 +24,12 @@ const allImages = [
   "./images/ali-seen.jpg",
   "./images/calum-seen.jpg",
   "./images/original-seen.jpeg",
+  "./images/ali-shower-seen.jpg",
+  "./images/cammy-seen.png",
+  "./images/face-mangled-seen.png",
+  "./images/hagrid-seen.png",
+  "./images/high-impact-sexual-seen.png",
+  "./images/jake-outside-seen.jpg",
 ];
 
 // Generate random number
@@ -49,9 +55,9 @@ client.on("messageCreate", (message) => {
   const command = args.shift().toLowerCase();
 
   // Test command
-  if (command === "ping") {
-    message.channel.send("pong!");
-  }
+  // if (command === "ping") {
+  //   message.channel.send("pong!");
+  // }
 
   // Help command
   if (command === "help") {
