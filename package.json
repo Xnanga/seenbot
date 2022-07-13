@@ -1,6 +1,6 @@
 {
   "name": "seenbot",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A simple bot for posting seen memes.",
   "main": "main.js",
   "scripts": {
