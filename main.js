@@ -5,8 +5,8 @@ const {
   MessageManager,
   MessageAttachment,
   MessageEmbed,
-} = require("discord.js");
-const { token } = require("./config.json");
+} = require('discord.js');
+const { token } = require('./config.json');
 
 // Create a new client instance
 const client = new Client({
@@ -14,22 +14,32 @@ const client = new Client({
 });
 
 // Assign a prefix for commands
-const prefix = "!";
+const prefix = '!';
 
 // Create array of images
 const allImages = [
-  "./images/angry-seen.png",
-  "./images/drawn-seen.jpg",
-  "./images/pished-seen.jpg",
-  "./images/ali-seen.jpg",
-  "./images/calum-seen.jpg",
-  "./images/original-seen.jpeg",
-  "./images/ali-shower-seen.jpg",
-  "./images/cammy-seen.png",
-  "./images/face-mangled-seen.png",
-  "./images/hagrid-seen.png",
-  "./images/high-impact-sexual-seen.png",
-  "./images/jake-outside-seen.jpg",
+  './images/angry-seen.png',
+  './images/drawn-seen.jpg',
+  './images/pished-seen.jpg',
+  './images/ali-seen.jpg',
+  './images/calum-seen.jpg',
+  './images/original-seen.jpeg',
+  './images/ali-shower-seen.jpg',
+  './images/cammy-seen.png',
+  './images/face-mangled-seen.png',
+  './images/hagrid-seen.png',
+  './images/high-impact-sexual-seen.png',
+  './images/jake-outside-seen.jpg',
+  './images/ali-disgusted-seen.jpg',
+  './images/ali-super-seen.jpeg',
+  './images/calum-prison-shower-seen.jpg',
+  './images/cammy-toe-seen.jpg',
+  './images/jake-hobo-seen.jpeg',
+  './images/jamie-gummy-seen.jpeg',
+  './images/jamie-hand-seen.jpeg',
+  './images/sad-ryan-seen.jpg',
+  './images/young-ewan-seen.jpeg',
+  './images/young-jake-seen.jpeg',
 ];
 
 // Generate random number
@@ -44,30 +54,25 @@ const removeStringBeginning = function (stringToEdit, charactersToRemove) {
 };
 
 // When the client is ready, run this code (only once)
-client.once("ready", () => {
-  console.log("Ready!");
+client.once('ready', () => {
+  console.log('Ready!');
 });
 
-client.on("messageCreate", (message) => {
+client.on('messageCreate', (message) => {
   if (!message.content.startsWith(prefix) || message.author.bot) return;
 
   const args = message.content.slice(prefix.length).split(/ +/);
   const command = args.shift().toLowerCase();
 
-  // Test command
-  // if (command === "ping") {
-  //   message.channel.send("pong!");
-  // }
-
   // Help command
-  if (command === "help") {
+  if (command === 'help') {
     message.channel.send(
       'Just type the "!seen" command to have SeenBot post a seen meme.'
     );
   }
 
   // Send random image
-  if (command === "seen") {
+  if (command === 'seen') {
     // Generate random number
     const num = randomInt(0, allImages.length - 1);
 
