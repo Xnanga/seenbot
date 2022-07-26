@@ -5,9 +5,8 @@ const {
   MessageAttachment,
   MessageEmbed,
 } = require('discord.js');
-const { token } = require('./config.json');
 const fs = require('fs');
-const path = require('path');
+const { token } = require('./config.json');
 
 // Create a new client instance
 const client = new Client({
@@ -19,13 +18,12 @@ const prefix = '!';
 
 // Create array of images
 let allImages = [];
-const imagesDirPath = path.join(__dirname, 'images');
-fs.readdir(imagesDirPath, (err, files) => {
+fs.readdir('./images', (err, files) => {
   if (err) {
     return console.err(`Unable to read directory: ${err}`);
   }
   files.forEach((image) => {
-    allImages.push(`./${image}`);
+    allImages.push(`./images/${image}`);
   });
 });
 
@@ -40,9 +38,20 @@ const removeStringBeginning = function (stringToEdit, charactersToRemove) {
   return editedString;
 };
 
+// Check if an object is empty
+const checkIfObjectIsEmpty = (obj) => {
+  return Object.keys(obj).length === 0;
+};
+
 // When the client is ready, run this code (only once)
 client.once('ready', () => {
   console.log('Ready!');
+});
+
+// When a message is deleted, cache it
+let lastDeletedMessageData = {};
+client.on('messageDelete', (deletedMessage) => {
+  lastDeletedMessageData = deletedMessage;
 });
 
 // When a message is posted, take an action
@@ -55,7 +64,8 @@ client.on('messageCreate', (message) => {
   // Help command
   if (command === 'help') {
     message.channel.send(
-      'Just type the "!seen" command to have SeenBot post a seen meme.'
+      `Type the "!seen" command to have SeenBot post a seen meme.
+       Type the "!snipe" command to have SeenBot post the last message that was deleted.`
     );
   }
 
@@ -76,6 +86,30 @@ client.on('messageCreate', (message) => {
 
     // Send image embed
     message.channel.send({ embeds: [imageEmbed], files: [imageFile] });
+  }
+
+  // Send last deleted message
+  if (command === 'snipe') {
+    // Check that there is a deleted message available
+    const deletedMessageDataIsEmpty = checkIfObjectIsEmpty(
+      lastDeletedMessageData
+    );
+    // If there is not a deleted message, post an error message in the channel
+    if (deletedMessageDataIsEmpty) {
+      message.channel.send('No messages in the delete queue...');
+      return;
+    }
+
+    // If there is a deleted message, post an embed with all values (URl optional)
+    deletedMessageEmbed = new MessageEmbed()
+      .setAuthor(lastDeletedMessageData.author.username)
+      .setThumbnail(lastDeletedMessageData.author.avatarURL())
+      .setTimestamp(lastDeletedMessageData.createdTimestamp)
+      .setDescription(lastDeletedMessageData.content)
+      ?.setImage(lastDeletedMessageData.attachments.first()?.url);
+
+    // Send the embed to the channel
+    message.channel.send({ embeds: [deletedMessageEmbed] });
   }
 });
 
